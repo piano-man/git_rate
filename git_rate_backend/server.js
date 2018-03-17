@@ -31,11 +31,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(fileUpload());
 app.use('/public', express.static(__dirname + '/Public'));
-
+var langpref;
 
 app.post('/upload/:orgname', (req, res, next) => {
-  console.log(req);
+  console.log(req.params.orgname);
   let imageFile = req.files.file;
+  var val = (req.body.text).toString();
+  console.log(val)
+  langpref = val.split(",")
+  console.log(langpref.length)
 
   imageFile.mv(__dirname+"/Public/"+req.params.orgname+".csv", function(err) {
     if (err) {
@@ -47,8 +51,8 @@ app.post('/upload/:orgname', (req, res, next) => {
 
 })
 
-app.get('/organisation/result/:orgname',async function(req,res){
-        var csvfile = './Public/input.csv'
+app.get('/organ/result/:orgname',async function(req,res){
+        var csvfile = './Public/'+req.params.orgname+".csv"
         var content = fs.readFileSync(csvfile, "utf8");
         var result;
         var user_rank_array = []
@@ -74,7 +78,22 @@ app.get('/organisation/result/:orgname',async function(req,res){
                         var user = await getUser(username)
                         console.log("user")
                         var repos = await getAllRepos(username)
-                        var arr = await createArray(repos)
+                        if(langpref.length>1)
+                        {
+                            console.log(langpref.length)
+                            console.log("greater")
+                            var arr = await createArray2(repos)
+                        }
+                        else if(langpref.length==1&&langpref[0]==""){
+                            console.log(langpref.length)
+                            console.log("zero")
+                            var arr = await createArray(repos)
+                        }
+                        else{
+                            console.log(langpref.length)
+                            console.log("greater")
+                            var arr = await createArray2(repos)                            
+                        }
                         var arr1 = JSON.stringify(arr)
                         final_array.push(arr1)
                         final_array.push("\"####\"")                  
@@ -166,12 +185,11 @@ async function createArray(repos)
     var arr = new Array(len)
     for(let i =0;i<len;i++)
     {
-        arr[i]=new Array(8)
+        arr[i]=new Array(9)
     }
     for(let i=0;i<len;i++)
     {
-        for(let j = 0;j<8;j++)
-        {
+        
             arr[i][0]=repos[i].name
             arr[i][1]=repos[i].language
             var str = repos[i].pushed_at
@@ -189,7 +207,51 @@ async function createArray(repos)
             arr[i][6]=repos[i].commit_count
             arr[i][7]=repos[i].open_issues
             arr[i][8]=repos[i].contri_count
-        }
+        
+    }
+    return arr
+}
+catch(e)
+{
+
+}
+}
+
+async function createArray2(repos)
+{
+    try{
+
+    
+    var len =repos.length;
+    var arr = new Array()
+    var k =0;
+    for(let i=0;i<len;i++)
+    {
+    
+            if(langpref.includes(repos[i].language)==true)
+            {
+                arr[k] = new Array(9)
+            arr[k][0]=repos[i].name
+            arr[k][1]=repos[i].language
+            var str = repos[i].pushed_at
+            var d = new Date(str);
+            var year = d.getFullYear().toString();
+            year = year.substr(2);
+            var f_date = (d.getMonth()+1)+"/"+d.getDate()+"/"+year
+            var time = str.split('T')[1].split('Z')[0]
+            time = time.substr(0,5)
+            var f_str = f_date+" "+time
+            arr[k][2]=f_str
+            arr[k][3]=repos[i].stargazers_count
+            arr[k][4]=repos[i].forks_count
+            arr[k][5]=repos[i].watchers
+            arr[k][6]=repos[i].commit_count
+            arr[k][7]=repos[i].open_issues
+            arr[k][8]=repos[i].contri_count
+            k++;
+            }
+
+        
     }
     return arr
 }
