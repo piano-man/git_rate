@@ -147,7 +147,7 @@ app.get('/user/ranking/:username', async function (req, res) {
            repos[i].ranking = rank_array[i]
            user_rank+=rank_array[i]
         }
-        var l = univ_array.length();
+        var l = univ_array.length;
         for(let k =0;k<l;k++)
         {
             if(user_rank>=univ_array[k])
