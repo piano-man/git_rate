@@ -3,7 +3,6 @@ import {BrowserRouter,Route,Link} from 'react-router-dom';
 import Home from './Home'
 import User from './User'
 import Repo from './Repo'
-import RepoCards from './RepoCards'
 import Org from './Org'
 import Lang from './Lang'
 import Main from './FileUpload'
