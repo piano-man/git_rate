@@ -11,13 +11,102 @@ http.listen(process.env.PORT || 5000);
 var fetch = require('node-fetch');
 var HttpsProxyAgent = require('https-proxy-agent');
 var parse = require('parse-link-header');
-var spawn = require("child_process").spawn
+var Papa = require("papaparse");
+var spawn = require("child_process").spawn;
+var spawnSync = require('spawn-sync')
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 const client_id = 'fe1bcc900fac67e26d7c'
 const client_secret = '0871e55b1a0c9c7d52b3c6c097a647fb28718b9c'
 const per_page = 100
-const proxy='http://iit2015089:9824110011@172.31.1.3:8080'
+const proxy = 'http://icm2015003:9158555203@172.31.1.4:8080'
+
+app.use(logger('dev'));
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(fileUpload());
+app.use('/public', express.static(__dirname + '/Public'));
+
+
+app.post('/upload', (req, res, next) => {
+  console.log(req);
+  let imageFile = req.files.file;
+
+  imageFile.mv(__dirname+"/Public/"+req.body.filename+".csv", function(err) {
+    if (err) {
+      return res.status(500).send(err);
+    }
+
+    res.json({file: "Public/"+req.body.filename+".csv"});
+  });
+
+})
+
+app.get('/organisation/result/:orgname',async function(req,res){
+        var csvfile = './Public/input.csv'
+        var content = fs.readFileSync(csvfile, "utf8");
+        var result;
+        var user_rank_array = []
+        var array = []
+        var final_array = []
+        var resp_array = []
+        Papa.parse(content, {
+            header: true,
+            delimiter: "\n",
+            skipEmptyLines: true,
+            complete: async function(result){
+                var len = result.data.length
+                for(let i=0;i<len;i++)
+                {
+                    array.push(result.data[i].name)
+                }
+                console.log(array)
+                var arr_len = array.length
+                for(let j=0;j<arr_len;j++)
+                {
+                        var username = array[j]
+                        var user_rank = 0
+                        var user = await getUser(username)
+                        console.log("user")
+                        var repos = await getAllRepos(username)
+                        var arr = await createArray(repos)
+                        var arr1 = JSON.stringify(arr)
+                        final_array.push(arr1)
+                        final_array.push("\"####\"")                  
+                }
+                console.log(final_array)
+                    var pythonProcess = await spawn('python3', ["./model2.py",final_array]);
+    await pythonProcess.stdout.on('data', function (data) {
+        console.log(data.toString())
+        user_rank_array = JSON.parse(data.toString())
+        console.log(user_rank_array)
+        var l = user_rank_array.length
+        for(let i=0;i<l;i++)
+        {
+            var obj = {}
+            obj={username:array[i],
+                rating:user_rank_array[i]}
+                resp_array.push(obj);
+        }
+        res.send({arr:resp_array})
+    })
+
+            }
+        });
+	
+});
+
+// error handler
 
 app.get('/user/ranking/:username', async function (req, res) {
+    try{
+
+    
     var rank_array
     var user_rank = 0
     var username = req.params.username
@@ -43,13 +132,17 @@ app.get('/user/ranking/:username', async function (req, res) {
         repos:repos})
     })
     
-
+    }
+    catch(e)
+    {
+        console.log(e)
+    }
 })
 
 
 async function getUser(username) {
     try {
-        let response = await fetch(`https://api.github.com/users/${username}?client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        let response = await fetch(`https://api.github.com/users/${username}?client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         let userinfo = await response.json()
         let repoCount = await getReposCount(userinfo.repos_url)
         let eventsUrl = userinfo.events_url.split('{')[0]
@@ -64,8 +157,9 @@ async function getUser(username) {
     }
 }
 
-async function createArray(repos) {
-       try{
+async function createArray(repos)
+{
+    try{
 
     
     var len =repos.length;
@@ -112,7 +206,7 @@ async function getContributors(contriUrl) {
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(contriUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(contriUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
 
@@ -124,7 +218,7 @@ async function getContributors(contriUrl) {
         totalPages = parsed.last.page
 
         // second fetch
-        response = await fetch(contriUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(contriUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         responseJson = await response.json()
 
         totalContri = 100 * (totalPages - 1) + responseJson.length
@@ -136,13 +230,13 @@ async function getContributors(contriUrl) {
 
 }
 
-async function getReposCount(repos_url){
+async function getReposCount(repos_url) {
     try {
         let totalRepos = 0;
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(repos_url + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(repos_url + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         //console.log(response)
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
@@ -161,7 +255,7 @@ async function getReposCount(repos_url){
 
         // second fetch
         for (let r = 0; r <= totalPages; r++) {
-            response = await fetch(repos_url + `?page=${r}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+            response = await fetch(repos_url + `?page=${r}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
             responseJson = await response.json()
 
             for (let i = 0; i < responseJson.length; i++) {
@@ -176,13 +270,12 @@ async function getReposCount(repos_url){
     catch (e) {
 
     }
-
 }
 
 async function getAllRepos(username) {
-        try {
+    try {
         let frepos = []
-        let response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        let response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         let repos = await response.json()
         let commitUrls = repos.map(repo => repo.commits_url.split('{')[0])
         let commitCountPromises = commitUrls.map(async (url) => { return await countCommits(url) })
@@ -214,7 +307,7 @@ async function getAllRepos(username) {
     }
     catch (e) {
     }
-}
+};
 
 async function countCommits(commitUrl) {
     try {
@@ -224,7 +317,7 @@ async function countCommits(commitUrl) {
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(commitUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(commitUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
 
@@ -236,7 +329,7 @@ async function countCommits(commitUrl) {
         totalPages = parsed.last.page
 
         // second fetch
-        response = await fetch(commitUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(commitUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         responseJson = await response.json()
 
         totalCommits = 100 * (totalPages - 1) + responseJson.length
@@ -247,11 +340,11 @@ async function countCommits(commitUrl) {
 }
 
 async function getCommitsCount(eventsUrl) {
-        try {
+    try {
         let totalCommits = 0
         let response, linkHeader, responseJson, parsed, totalPages
         //first fetch
-        response = await fetch(eventsUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+        response = await fetch(eventsUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
         if (linkHeader == null) {
@@ -266,7 +359,7 @@ async function getCommitsCount(eventsUrl) {
         parsed = parse(linkHeader)
         totalPages = parsed.last.page
         for (let c = 2; c <= totalPages; c++) {
-            response = await fetch(eventsUrl + `?page=${c}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`, { agent: new HttpsProxyAgent(proxy) })
+            response = await fetch(eventsUrl + `?page=${c}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
             responseJson = await response.json()
             for (let i = 0; i < responseJson.length; i++) {
                 if (responseJson[i].type == 'PushEvent') {
