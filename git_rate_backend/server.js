@@ -23,6 +23,7 @@ const client_id = 'fe1bcc900fac67e26d7c'
 const client_secret = '0871e55b1a0c9c7d52b3c6c097a647fb28718b9c'
 const per_page = 100
 const proxy = 'http://icm2015003:9158555203@172.31.1.4:8080'
+var univ_array = [50,72,89,151,23,34,21,13,45,2,4,7,9,5,23,12,57,98,9,6,5,2,1,7,8,12,32,44,45,121,34,65,34,32,12,54,98,99,89,89,34,2,12,3,4,1,0.2,0.4,0.6,0.8,0.9,0.34,0.456,0.12,0.34,345,543,124,532,134,567,345,543,234,432,321,323,654,345]
 
 app.use(logger('dev'));
 app.use(cors());
@@ -125,7 +126,8 @@ app.get('/organ/result/:orgname',async function(req,res){
 app.get('/user/ranking/:username', async function (req, res) {
     try{
 
-    
+    var percentile;
+    var perc_score = 0;
     var rank_array
     var user_rank = 0
     var username = req.params.username
@@ -145,10 +147,21 @@ app.get('/user/ranking/:username', async function (req, res) {
            repos[i].ranking = rank_array[i]
            user_rank+=rank_array[i]
         }
+        var l = univ_array.length();
+        for(let k =0;k<l;k++)
+        {
+            if(user_rank>=univ_array[k])
+            {
+                perc_score++;
+            }
+        }
+        percentile = perc_score / l;
         user.ranking = user_rank
+        univ_array.push(user_rank)
         res.send({
             user:user,
-        repos:repos})
+        repos:repos,
+    percentile:percentile})
     })
     
     }
