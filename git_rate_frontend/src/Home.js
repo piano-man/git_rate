@@ -22,21 +22,37 @@ export default class Home extends Component{
     render()
     {
         return(
-            <div className="login-container">
-            <div className="login-grid1"></div>
-            <div className="login-grid2"></div>
-            <div className="login-grid3"></div>
-            <div className="login-grid4"></div>
-            <div className="login-grid5">
-                <form className="loginform" onSubmit={this.handlesubmit}>
-                <div className = "loginchild1">
-                    <input ref="userInput" className="search-page_input" type="text" placeholder="enter github username" />
+            <div className="login-page">
+                <div className="login-form">
+                    <div className="t1">
+                        <h1>Enter a GitHub username</h1>
+                    </div>
+                    <div className="t2">
+                        <form onSubmit={this.handlesubmit}>
+                            <div className="t2-input">
+                                <input ref="userInput" className="login-page_input" type="text" />
+                            </div>
+                            <div className="t2-button">
+                                <button className="login-page_button">Search</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div className = "loginchild2">
-                    <button className="search-page_button">Search</button>
+                <div className="login-form">
+                    <div className="t1">
+                        <h1>Enter Organisation Name</h1>
+                    </div>
+                    <div className="t2">
+                        <form onSubmit={this.handlesubmit2}>
+                        <div className="t2-input">
+                            <input ref="orgInput" className="login-page_input" type="text" />
+                        </div>
+                        <div className="t2-button">
+                            <button className="login-page_button">Initiate</button>
+                        </div>
+                    </form>
+                    </div>
                 </div>
-                </form>
-            </div>
             </div>
         );
     }
