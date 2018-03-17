@@ -50,7 +50,14 @@ async getStarAverage(repos)
 
   render() {
     if (!this.state.user) {
-      return (<div className="user-page">LOADING...</div>)
+      return (<div class="circ">
+                <div class="load">Loader. . . </div>
+                <div class="hands"></div>
+                <div class="body"></div>
+                <div class="head">
+                <div class="eye"></div>
+                </div>
+            </div>)
     }
     console.log(this.props.getDatafromUser)
     const user = this.state.user
@@ -106,7 +113,7 @@ async getStarAverage(repos)
     }
     if(avg < 8) {
       star_tip = (
-        <li  className="card-info-back"> Increase understandability of repos</li>
+        <li  className="card-info-back">Increase understandability of repos</li>
       )
     }
     else{
@@ -166,7 +173,7 @@ async getStarAverage(repos)
                         <div className="card-info-front">ANALYSIS</div>
                     </div>
                     <div className="card-back">
-                        <ul>
+                        <ul className="card-back-ul">
                             {foll_tip}
                             {star_tip}
                             {rep_tip}
@@ -174,7 +181,7 @@ async getStarAverage(repos)
                     </div>
                 </div>
             </div>
-            <div id="rankContainer3" style={{ backgroundColor: 'rgba(255,99,132,0.6)' }}>
+            <div id="rankContainer3" style={{ backgroundColor: 'rgba(255,99,132,0.4)' }}>
                  <div id="rankvalue">
                     RATING : {user.ranking.toString().substr(0,7)}
                  </div>
@@ -220,3 +227,4 @@ async getStarAverage(repos)
     );
   }
 };
+
