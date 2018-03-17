@@ -33,11 +33,11 @@ app.use(fileUpload());
 app.use('/public', express.static(__dirname + '/Public'));
 
 
-app.post('/upload', (req, res, next) => {
+app.post('/upload/:orgname', (req, res, next) => {
   console.log(req);
   let imageFile = req.files.file;
 
-  imageFile.mv(__dirname+"/Public/"+req.body.filename+".csv", function(err) {
+  imageFile.mv(__dirname+"/Public/"+req.params.orgname+".csv", function(err) {
     if (err) {
       return res.status(500).send(err);
     }
