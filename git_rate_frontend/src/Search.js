@@ -6,6 +6,7 @@ import Repo from './Repo'
 import RepoCards from './RepoCards'
 import Org from './Org'
 import Lang from './Lang'
+import Main from './FileUpload'
 export default class Search extends Component
 {
     constructor(){
@@ -32,7 +33,8 @@ export default class Search extends Component
             <Route exact path={'/user/:username'}   render={(props) => <User {...props} getDatafromUser={this.getDatafromUser} hello="hello" />}/> 
             <Route exact path={'/user/:username/repos'} render={(props) => <Repo {...props} data = {this.state.data}/>}/>
             <Route exact path={'/user/:username/languagesort'} render={(props) => <Lang {...props} data = {this.state.data}/>}/>            
-            <Route exact path={'/organisation/:orgname'} component={Org}/>         
+            <Route exact path={'/organisation/:orgname'} component={Main}/>
+            <Route exact path={'/organisation/result/:orgname'} component={Org}/>         
             </div>
         )
 
