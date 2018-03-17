@@ -25,12 +25,11 @@ export default class Home extends Component{
             <div className="login-page">
                 <div className="login-form">
                     <div className="t1">
-                        <h1>Enter a GitHub username</h1>
                     </div>
                     <div className="t2">
                         <form onSubmit={this.handlesubmit}>
                             <div className="t2-input">
-                                <input ref="userInput" className="login-page_input" type="text" />
+                                <input ref="userInput" className="login-page_input" type="text" placeholder="Enter Github Username" />
                             </div>
                             <div className="t2-button">
                                 <button className="login-page_button">Search</button>
@@ -40,12 +39,11 @@ export default class Home extends Component{
                 </div>
                 <div className="login-form">
                     <div className="t1">
-                        <h1>Enter Organisation Name</h1>
                     </div>
                     <div className="t2">
                         <form onSubmit={this.handlesubmit2}>
                         <div className="t2-input">
-                            <input ref="orgInput" className="login-page_input" type="text" />
+                            <input ref="orgInput" className="login-page_input" type="text" placeholder="Enter Organisation name"/>
                         </div>
                         <div className="t2-button">
                             <button className="login-page_button">Initiate</button>
