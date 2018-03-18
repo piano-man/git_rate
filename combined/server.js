@@ -34,12 +34,15 @@ app.use(fileUpload());
 app.use('/Public', express.static(__dirname + '/Public'));
 var langpref;
 var pa = __dirname + 'Public/index.html'
-app.all('/', function(req, res)) {
+app.all('/', function(req, res) {
     res.sendFile(pa)
 })
 
 
 app.post('/upload/:orgname', (req, res, next) => {
+    try{
+
+    
   console.log(req.params.orgname);
   let imageFile = req.files.file;
   var val = (req.body.text).toString();
@@ -55,9 +58,17 @@ app.post('/upload/:orgname', (req, res, next) => {
     res.json({file: "Public/"+req.body.filename+".csv"});
   });
 
+    }
+    catch(e)
+    {
+        
+    }
 })
 
 app.get('/organ/result/:orgname',async function(req,res){
+    try{
+
+    
         var csvfile = './Public/'+req.params.orgname+".csv"
         var content = fs.readFileSync(csvfile, "utf8");
         var result;
@@ -123,14 +134,18 @@ app.get('/organ/result/:orgname',async function(req,res){
 
             }
         });
-	
+    }
+    catch(e)
+    {
+
+    }
 });
 
 // error handler
 
 app.get('/user/ranking/:username', async function (req, res) {
     try{
-
+        console.log("get request")
     var percentile;
     var perc_score = 0;
     var rank_array
