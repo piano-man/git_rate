@@ -3,17 +3,17 @@
 
 Some of the features considered for rating repositories are:-
 
-1)Stars
+* Stars
 
-2)Watchers
+* Watchers
 
-3)Number of commits
+* Number of commits
 
-4)Number of contributors
+* Number of contributors
 
-5)Number of open issues
+* Number of open issues
 
-6)Date the repository was last updated.......
+* Date the repository was last updated.......
 
 and many more
 
