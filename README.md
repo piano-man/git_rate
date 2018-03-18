@@ -1,5 +1,5 @@
 # git_rate
-GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.
+**GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.
 
 Some of the features considered for rating repositories are:-
 
@@ -17,8 +17,10 @@ Some of the features considered for rating repositories are:-
 
 and many more
 
-It is a very powerful tool which can be used by organisations and hackathons alike to shortlist and analyse candidates with the feature to select language preference. .
+It also gives each user a percentile score based on the number of users using GitRate.
 
-It will shorten the tedious selection procedure to the mere click of a button.
+**It is a very powerful tool which can be used by organisations and hackathons alike to shortlist and analyse candidates with the feature to select language preference.
 
-Sit back,relax and let us do your work for you. :)
+**It will shorten the tedious selection procedure to the mere click of a button.
+
+**Sit back,relax and let us do your work for you. :)
