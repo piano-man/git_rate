@@ -84,48 +84,48 @@ export default class Org extends Component {
     }
 
     async getRankArray() {
-                let response = await fetch(`http://localhost:5000/organ/result/${this.props.match.params.orgname}`)
-               let resp_json = await response.json()
-    //            let resp_json = {
-    // "arr": [
-    //     {
-    //         "username": "himanshub16",
-    //         "rating": 150.21209221181786
-    //     },
-    //     {
-    //         "username": "piano-man",
-    //         "rating": 5.721303670817692
-    //     },
-    //     {
-    //         "username": "ankdengla1996",
-    //         "rating": 171.11934473593306
-    //     },
-    //     {
-    //         "username": "kurdengla1996",
-    //         "rating": 0.17111934473593306
-    //     },
-    //     {
-    //         "username": "ankungla1996",
-    //         "rating": 7.111934473593306
-    //     },
-    //     {
-    //         "username": "ankurdela1996",
-    //         "rating": 17.111934473593306
-    //     },
-    //     {
-    //         "username": "anengla1996",
-    //         "rating": 11.1934473593306
-    //     },
-    //     {
-    //         "username": "ankurdeng96",
-    //         "rating": 34.473593306
-    //     },
-    //     {
-    //         "username": "ankurd996",
-    //         "rating": 9.34473593306
-    //     }
-    // ]
-//}
+                //let response = await fetch(`http://localhost:5000/organ/result/${this.props.match.params.orgname}`)
+               //let resp_json = await response.json()
+               let resp_json = {
+    "arr": [
+        {
+            "username": "himanshub16",
+            "rating": 150.21209221181786
+        },
+        {
+            "username": "piano-man",
+            "rating": 5.721303670817692
+        },
+        {
+            "username": "alex",
+            "rating": 171.11934473593306
+        },
+        {
+            "username": "ankurdengla1996",
+            "rating": 0.17111934473593306
+        },
+        {
+            "username": "Arpitrf",
+            "rating": 7.111934473593306
+        },
+        {
+            "username": "bosco304",
+            "rating": 17.111934473593306
+        },
+        {
+            "username": "michelle76",
+            "rating": 11.1934473593306
+        },
+        {
+            "username": "mark44",
+            "rating": 34.473593306
+        },
+        {
+            "username": "pa1557",
+            "rating": 9.34473593306
+        }
+    ]
+}
                 let arr = resp_json.arr
                 this.setState({
                     arr: arr,
@@ -185,6 +185,11 @@ export default class Org extends Component {
                         <Link to="#">
                             <div className="list-group">
                                 <a href="#"></a>
+                            </div>
+                        </Link>
+                        <Link to='/'>
+                            <div className="list-group">
+                                <a href="#">Home</a>
                             </div>
                         </Link>
                         <Link to={`/organisation/${this.props.match.params.orgname}/`}>

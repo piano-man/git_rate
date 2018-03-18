@@ -143,9 +143,14 @@ export default class Lang extends Component {
                 <div className="grid-item-3" style={{color: 'white'}} />
                 <div className="grid-item-4">
                     <div className="side">
+                    <Link to='/'>
+                        <div className="list-group">
+                            <a href="#">Home</a>
+                        </div>
+                    </Link>
                     <Link to={`/user/${this.props.match.params.username}/`}>
                         <div className="list-group">
-                            <a href="#">Overview</a>
+                            <a href="#">Analysis</a>
                         </div>
                     </Link>
                         <Link to={`/user/${this.props.match.params.username}/repos`}>

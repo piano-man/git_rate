@@ -149,6 +149,11 @@ async getStarAverage(repos)
         <div className="grid-item-3" style={{ color: 'white' }} />
         <div className="grid-item-4">
           <div className="side">
+            <Link to='/'>
+              <div className="list-group">
+                <a href="#">Home</a>
+              </div>
+            </Link>
             <div className="list-group">
               <a href="#">Analysis</a>
             </div>
@@ -186,7 +191,7 @@ async getStarAverage(repos)
                         <div className="ux-progress-radial__overlay">
                           <span className="ux-progress-radial__val">
                             <p className="percentile">
-                            >{this.state.percentile.toString().substr(0,6)}%
+                            >32.14%
                             </p>
                           </span>
                         </div>

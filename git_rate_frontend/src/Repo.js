@@ -94,6 +94,11 @@ export default class Repo extends Component {
                 <div class="repo-grid3"></div>
                 <div className="grid-item-4">
                     <div className="side">
+                    <Link to='/'>
+                        <div className="list-group">
+                            <a href="#">Home</a>
+                        </div>
+                    </Link>
                     <Link to={`/user/${this.props.match.params.username}`}>
                         <div className="list-group">
                             <a href="#">Analysis</a>
