@@ -147,6 +147,7 @@ app.get('/user/ranking/:username', async function (req, res) {
            repos[i].ranking = rank_array[i]
            user_rank+=rank_array[i]
         }
+    user_rank+=(0.2*user.commits_count)+(0.5*user.followers)
         var l = univ_array.length;
         for(let k =0;k<l;k++)
         {
@@ -157,7 +158,10 @@ app.get('/user/ranking/:username', async function (req, res) {
         }
         percentile = perc_score / l;
         user.ranking = user_rank
-        univ_array.push(user_rank)
+        // if(univ_array.includes(user_rank)==false)
+        // {
+        //     univ_array.push(user_rank)
+        // }
         res.send({
             user:user,
         repos:repos,
