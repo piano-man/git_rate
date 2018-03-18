@@ -1,0 +1,21 @@
+{
+  "name": "github-analyser-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "piano-man",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "express-fileupload": "^0.4.0",
+    "morgan": "^1.9.0",
+    "node-fetch": "^2.1.1",
+    "serve-favicon": "^2.4.5",
+    "spawn-sync": "^1.0.15"
+  }
+}
