@@ -15,7 +15,7 @@ export default class User extends React.Component {
     let repos = resp_json.repos
     this.props.getDatafromUser(repos)
     let star_avg = await this.getStarAverage(repos);
-    let percentile = resp_json.percentile * 100
+    let percentile = resp_json.percentile
     this.setState({
       user: userinfo,
       repos: repos,
@@ -191,7 +191,7 @@ async getStarAverage(repos)
                         <div className="ux-progress-radial__overlay">
                           <span className="ux-progress-radial__val">
                             <p className="percentile">
-                            >32.14%
+                              >{(this.state.percentile * 100).toString().substr(0,6)}%
                             </p>
                           </span>
                         </div>
