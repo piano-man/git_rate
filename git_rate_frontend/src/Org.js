@@ -177,21 +177,21 @@ export default class Org extends Component {
                 <div className="grid-item-3" style={{color: 'white'}} />
                 <div className="grid-item-4">
                     <div className="side">
-                    <Link to={`/organisation/${this.props.match.params.orgname}/`}>
+                        <Link to="#">
+                            <div className="list-group">
+                                <a href="#"></a>
+                            </div>
+                        </Link>
+                        <Link to="#">
+                            <div className="list-group">
+                                <a href="#"></a>
+                            </div>
+                        </Link>
+                        <Link to={`/organisation/${this.props.match.params.orgname}/`}>
                         <div className="list-group">
                             <a href="#">Upload another file</a>
                         </div>
                     </Link>
-                        <Link to="#">
-                            <div className="list-group">
-                                <a href="#"></a>
-                            </div>
-                        </Link>
-                        <Link to="#">
-                            <div className="list-group">
-                                <a href="#"></a>
-                            </div>
-                        </Link>
                         <hr />
                     </div>
                 </div>

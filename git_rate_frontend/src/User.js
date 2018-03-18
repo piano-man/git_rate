@@ -15,10 +15,12 @@ export default class User extends React.Component {
     let repos = resp_json.repos
     this.props.getDatafromUser(repos)
     let star_avg = await this.getStarAverage(repos);
+    let percentile = resp_json.percentile * 100
     this.setState({
       user: userinfo,
       repos: repos,
-      star_avg:star_avg
+      star_avg:star_avg,
+      percentile:percentile
     })
   }
 
@@ -50,12 +52,12 @@ async getStarAverage(repos)
 
   render() {
     if (!this.state.user) {
-      return (<div class="circ">
-                <div class="load">Loader. . . </div>
-                <div class="hands"></div>
-                <div class="body"></div>
-                <div class="head">
-                <div class="eye"></div>
+      return (<div className="circ">
+                <div className="load">Loading. . . </div>
+                <div className="hands"></div>
+                <div className="body"></div>
+                <div className="head">
+                <div className="eye"></div>
                 </div>
             </div>)
     }
@@ -103,34 +105,34 @@ async getStarAverage(repos)
     if(stats[1].value<100)
     {
       foll_tip = (
-        <li className="card-info-back">More activity needed in the git community</li>
+        <li>More activity needed in the git community.</li>
       )
     }
     else{
       foll_tip = (
-        <li className="card-info-back">Sufficient socialisation</li>
+        <li>Sufficient socialisation.</li>
       )
     }
     if(avg < 8) {
       star_tip = (
-        <li  className="card-info-back">Increase understandability of repos</li>
+        <li>Increase understandability of repos.</li>
       )
     }
     else{
       star_tip = (
-        <li className="card-info-back">Stars to Repos ratio seems good</li>
+        <li>Stars to Repos ratio seems good.</li>
       )
     }
     if(rep_ratio<0.5)
     {
       rep_tip = (
-        <li className="card-info-back">Need to create more personal repos</li>
+        <li>Need to create more personal repos.</li>
       )
     }
     else
     {
       rep_tip = (
-        <li className="card-info-back">Sufficient number of personal repos</li>
+        <li>Sufficient number of personal repos.</li>
       )
     }
     return (
@@ -139,7 +141,7 @@ async getStarAverage(repos)
         <div className="grid-item-2" style={{ color: 'white' }}>
           <div className="header">
             <div>
-              Overview
+              Analysis
             </div>
             <hr size={1} />
           </div>
@@ -148,7 +150,7 @@ async getStarAverage(repos)
         <div className="grid-item-4">
           <div className="side">
             <div className="list-group">
-              <a href="#">Overview</a>
+              <a href="#">Analysis</a>
             </div>
             <Link to={stats[0].url}>
               <div className="list-group">
@@ -167,24 +169,32 @@ async getStarAverage(repos)
             <div id="chartContainer3">
                 <img id="chartimage" src={user.avatar_url} alt={`${user.login} avatar`} />
             </div>
-            <div id="chartContainer3">
-                <div className="flip-card3">
-                    <div className="card-front">
-                        <div className="card-info-front">ANALYSIS</div>
+            <div id="rankContainer3">
+              <div id="rankvalue">
+                <ul>
+                  {foll_tip}
+                  {star_tip}
+                  {rep_tip}
+                  <li>Total score: {user.ranking.toString().substr(0,7)}</li>
+                </ul>
+              </div>
+              <div className="finalRank">
+                <div className="ux-progress-radial__holder ux-progress-radial_size-l">
+                  <div className="ux-progress-radial progress-75 ux-progress-radial__level-3">
+                    <div className="ux-progress-radial__level-2">
+                      <div className="ux-progress-radial__level-1">
+                        <div className="ux-progress-radial__overlay">
+                          <span className="ux-progress-radial__val">
+                            <p className="percentile">
+                            >{this.state.percentile.toString().substr(0,6)}%
+                            </p>
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="card-back">
-                        <ul className="card-back-ul">
-                            {foll_tip}
-                            {star_tip}
-                            {rep_tip}
-                        </ul>
-                    </div>
+                  </div>
                 </div>
-            </div>
-            <div id="rankContainer3" style={{ backgroundColor: 'rgba(255,99,132,0.4)' }}>
-                 <div id="rankvalue">
-                    RATING : {user.ranking.toString().substr(0,7)}
-                 </div>
+              </div>
             </div>
         </div>
         <div className="grid-item-6" />
@@ -199,25 +209,25 @@ async getStarAverage(repos)
             <div className="quick-stats" style={{ backgroundColor: '#00d18c' }}>
               <div className="text-quick-stats">
                 <h4>REPOS</h4>
-                <h4>{stats[0].value}</h4>
+                <h1>{stats[0].value}</h1>
               </div>
             </div>
             <div className="quick-stats" style={{ backgroundColor: '#f72b4d' }}>
               <div className="text-quick-stats">
                 <h4>FOLLOWERS</h4>
-                <h4>{stats[1].value}</h4>
+                <h1>{stats[1].value}</h1>
               </div>
             </div>
             <div className="quick-stats" style={{ backgroundColor: '#a974ff' }}>
               <div className="text-quick-stats">
                 <h4>FOLLOWING</h4>
-                <h4>{stats[2].value}</h4>
+                <h1>{stats[2].value}</h1>
               </div>
             </div>
             <div className="quick-stats" style={{ backgroundColor: '#e3de00' }}>
               <div className="text-quick-stats">
                 <h5>OPEN SOURCE COMMITS</h5>
-                <h4>{stats[3].value}</h4>
+                <h1>{stats[3].value}</h1>
               </div>
             </div>
           </div>

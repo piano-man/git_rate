@@ -55,8 +55,8 @@ export default class Repo extends Component {
 
                 <div className="flip-card">
                     <div className="card-front">
-                        <div className="card-info-front">{stat.name}</div>
-                        <div className="card-info-front">Rating:{stat.ranking.toString().substr(0, 5)}</div>
+                        <div className="card-info-front"><h3>{stat.name}</h3></div>
+                        <div className="card-info-front-value">Rating: {stat.ranking.toString().substr(0, 5)}</div>
                     </div>
                     <div className="card-back">
                         <p className="card-info-back">Stars:{stat.stargazers_count}</p>
@@ -96,7 +96,7 @@ export default class Repo extends Component {
                     <div className="side">
                     <Link to={`/user/${this.props.match.params.username}`}>
                         <div className="list-group">
-                            <a href="#">Overview</a>
+                            <a href="#">Analysis</a>
                         </div>
                     </Link>
                         <Link to={`/user/${this.props.match.params.username}/repos`}>
