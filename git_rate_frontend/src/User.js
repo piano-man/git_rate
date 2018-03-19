@@ -10,7 +10,6 @@ export default class User extends React.Component {
 
   async getUser() {
     let response = await fetch(`https://rating.gitrate.tech/user/ranking/${this.props.match.params.username}`)
-
     let resp_json = await response.json()
     let userinfo = resp_json.user
     let repos = resp_json.repos
