@@ -20,7 +20,7 @@ Some of the features considered for rating repositories are:-
 
 and many more
 
-It also gives each user a percentile score based on the number of users using GitRate.
+It also gives each user a percentile score based on the number of users using GitRate and suggestions to improve their rank.
 
 **It is a very powerful tool which can be used by organisations and hackathons alike to shortlist and analyse candidates with the feature to select language preference.**
 
