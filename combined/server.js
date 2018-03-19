@@ -198,7 +198,7 @@ app.get('/user/ranking/:username', async function (req, res) {
 
 async function getUser(username) {
     try {
-        let response = await fetch(`https://api.github.com/users/${username}?client_id=${client_id}&client_secret=${client_secret}`)
+        let response = await fetch(`https://api.github.com/users/${username}?client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         let userinfo = await response.json()
         let repoCount = await getReposCount(userinfo.repos_url)
         let eventsUrl = userinfo.events_url.split('{')[0]
@@ -305,7 +305,7 @@ async function getContributors(contriUrl) {
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(contriUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(contriUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
 
@@ -317,7 +317,7 @@ async function getContributors(contriUrl) {
         totalPages = parsed.last.page
 
         // second fetch
-        response = await fetch(contriUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(contriUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         responseJson = await response.json()
 
         totalContri = 100 * (totalPages - 1) + responseJson.length
@@ -335,7 +335,7 @@ async function getReposCount(repos_url) {
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(repos_url + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(repos_url + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         //console.log(response)
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
@@ -354,7 +354,7 @@ async function getReposCount(repos_url) {
 
         // second fetch
         for (let r = 0; r <= totalPages; r++) {
-            response = await fetch(repos_url + `?page=${r}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+            response = await fetch(repos_url + `?page=${r}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
             responseJson = await response.json()
 
             for (let i = 0; i < responseJson.length; i++) {
@@ -374,7 +374,7 @@ async function getReposCount(repos_url) {
 async function getAllRepos(username) {
     try {
         let frepos = []
-        let response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&client_id=${client_id}&client_secret=${client_secret}`)
+        let response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         let repos = await response.json()
         let commitUrls = repos.map(repo => repo.commits_url.split('{')[0])
         let commitCountPromises = commitUrls.map(async (url) => { return await countCommits(url) })
@@ -416,7 +416,7 @@ async function countCommits(commitUrl) {
         let response, linkHeader, responseJson, parsed, totalPages
 
         // first fetch
-        response = await fetch(commitUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(commitUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
 
@@ -428,7 +428,7 @@ async function countCommits(commitUrl) {
         totalPages = parsed.last.page
 
         // second fetch
-        response = await fetch(commitUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(commitUrl + `?page=${totalPages}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         responseJson = await response.json()
 
         totalCommits = 100 * (totalPages - 1) + responseJson.length
@@ -443,7 +443,7 @@ async function getCommitsCount(eventsUrl) {
         let totalCommits = 0
         let response, linkHeader, responseJson, parsed, totalPages
         //first fetch
-        response = await fetch(eventsUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+        response = await fetch(eventsUrl + `?per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
         linkHeader = response.headers.get('Link')
         responseJson = await response.json()
         if (linkHeader == null) {
@@ -458,7 +458,7 @@ async function getCommitsCount(eventsUrl) {
         parsed = parse(linkHeader)
         totalPages = parsed.last.page
         for (let c = 2; c <= totalPages; c++) {
-            response = await fetch(eventsUrl + `?page=${c}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`)
+            response = await fetch(eventsUrl + `?page=${c}&per_page=${per_page}&client_id=${client_id}&client_secret=${client_secret}`,{agent:new HttpsProxyAgent(proxy)})
             responseJson = await response.json()
             for (let i = 0; i < responseJson.length; i++) {
                 if (responseJson[i].type == 'PushEvent') {

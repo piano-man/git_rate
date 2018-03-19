@@ -18,7 +18,14 @@ export default class Main extends React.Component {
     data.append('file', this.uploadInput.files[0]);
     data.append('text',this.refs.langpref.value)
 
-    fetch(`http://localhost:5000/upload/${this.props.match.params.orgname}`, {
+    // fetch(`https://localhost:5000/upload/${this.props.match.params.orgname}`, {
+    //   method: 'POST',
+    //   body: data,
+    // }).then(()=>{
+    //   this.props.history.push(`/organisation/result/${this.props.match.params.orgname}`)
+
+    // }
+    fetch(`https://rating.gitrate.tech/upload/${this.props.match.params.orgname}`, {
       method: 'POST',
       body: data,
     }).then(()=>{
