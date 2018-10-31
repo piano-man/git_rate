@@ -1,4 +1,4 @@
-# git_rate
+# GitRate
 
 **GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.**
 
