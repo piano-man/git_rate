@@ -1,6 +1,8 @@
-# GitRate
+# GitRate  &middot;  ![](https://img.shields.io/github/license/mashape/apistatus.svg) ![](https://img.shields.io/npm/v/npm.svg) ![](https://img.shields.io/node/v/@stdlib/stdlib/latest.svg?registry_uri=https%3A%2F%2Fregistry.npmjs.com)
+## A smart profile analysis system created during Hack in the North 3.0
 
-**GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.**
+### About
+GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.
 
 [Click to give it a whirl](https://rating.gitrate.tech)
 
@@ -29,3 +31,11 @@ It also gives each user a percentile score based on the number of users using Gi
 **It will shorten the tedious selection procedure to the mere click of a button.**
 
 **Sit back,relax and let us do your work for you. :)**
+
+### Under the hood
+Built using [React](https://reactjs.org/) for front-end, [Node.js(Express)](https://expressjs.com/) for back-end and [Github API](https://developer.github.com/v3/).
+
+### Creators 
+[Gaganjeet Reen](https://github.com/piano-man)  
+[Ankur Dengla](https://github.com/ankurdengla1996)  
+[Arpit Bahety](https://github.com/ArpitRF/)  
