@@ -4,7 +4,7 @@
 ### About
 GitRate is an "extremely" intelligent github profile analyser which provides each of the users repos a rating and also assigns the same for the user.
 
-[Click to give it a whirl](https://rating.gitrate.tech)
+<!-- [Click to give it a whirl](https://rating.gitrate.tech) -->
 
 [Visual Demonstration](https://drive.google.com/open?id=1qBQpXc0A6vok5a5pdQQDE84DuCbKb0A8)
 
