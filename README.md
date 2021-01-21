@@ -6,7 +6,7 @@ GitRate is an "extremely" intelligent github profile analyser which provides eac
 
 <!-- [Click to give it a whirl](https://rating.gitrate.tech) -->
 
-<img src="https://drive.google.com/uc?export=view&id=1qs5hcaSakIW7aAyXTQCpkPVK_I91MqV_" width=50% height=50%/>
+<img src="https://drive.google.com/uc?export=view&id=1qs5hcaSakIW7aAyXTQCpkPVK_I91MqV_" width=80% height=80%/>
 
 [Visual Demonstration](https://drive.google.com/open?id=1qBQpXc0A6vok5a5pdQQDE84DuCbKb0A8)
 
